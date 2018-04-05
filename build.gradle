@@ -13,7 +13,7 @@ repositories {
     mavenCentral()
 }
 task buildNPM(type: Exec) {
-    commandLine 'sh', '-c', 'npm run build:docker'
+    commandLine 'sh', '-c', 'npm run build'
 }
 task buildNPMPipeLine(type: Exec) {
     commandLine 'sh', '-c', 'npm run build:pipeline'
