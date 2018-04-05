@@ -1,0 +1,34 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies{
+        classpath('se.transmode.gradle:gradle-docker:1.2')
+    }
+}
+group = "webstore"
+apply plugin: 'idea'
+apply plugin: 'docker'
+repositories {
+    mavenCentral()
+}
+task buildNPM(type: Exec) {
+    commandLine 'sh', '-c', 'npm run build:docker'
+}
+task copyBuild(type: Copy,dependsOn: buildNPM) {
+    into('build/docker')
+    from("build"){
+        into("build")
+    }
+    from("conf"){
+        into("conf")
+    }
+}
+
+task buildDocker(type: Docker,dependsOn: copyBuild) {
+    push = false
+    applicationName="ui"
+    tagVersion="DEV"
+    tag="${project.group}/${applicationName}"
+    dockerfile = file('Dockerfile')
+}
