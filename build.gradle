@@ -15,7 +15,19 @@ repositories {
 task buildNPM(type: Exec) {
     commandLine 'sh', '-c', 'npm run build:docker'
 }
+task buildNPMPipeLine(type: Exec) {
+    commandLine 'sh', '-c', 'npm run build:pipeline'
+}
 task copyBuild(type: Copy,dependsOn: buildNPM) {
+    into('build/docker')
+    from("build"){
+        into("build")
+    }
+    from("conf"){
+        into("conf")
+    }
+}
+task copyBuildPipeline(type: Copy,dependsOn: buildNPMPipeLine) {
     into('build/docker')
     from("build"){
         into("build")
@@ -26,6 +38,13 @@ task copyBuild(type: Copy,dependsOn: buildNPM) {
 }
 
 task buildDocker(type: Docker,dependsOn: copyBuild) {
+    push = false
+    applicationName="ui"
+    tagVersion="DEV"
+    tag="${project.group}/${applicationName}"
+    dockerfile = file('Dockerfile')
+}
+task buildPipeline(type: Docker,dependsOn: copyBuildPipeline) {
     push = false
     applicationName="ui"
     tagVersion="DEV"
