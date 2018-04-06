@@ -23,14 +23,15 @@
     "enzyme": "^2.9.1",
     "expect": "^21.1.0",
     "nock": "^9.0.14",
+    "react-app-env": "^1.2.0",
     "react-scripts": "1.0.10",
     "redux-mock-store": "^1.3.0"
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "sh -ac '. .env.${REACT_APP_ENV}; react-scripts build'",
-    "build:docker": "REACT_APP_ENV=docker npm run build",
-    "build:pipeline": "REACT_APP_ENV=pipeline npm run build",
+    "build": "react-scripts build'",
+    "build:env": "react-app-env --env-file=${BUILD_ENV}.env build",
+    "build:docker": "BUILD_ENV=docker npm run build:env",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   }

@@ -13,10 +13,7 @@ repositories {
     mavenCentral()
 }
 task buildNPM(type: Exec) {
-    commandLine 'sh', '-c', 'npm run build'
-}
-task buildNPMPipeLine(type: Exec) {
-    commandLine 'sh', '-c', 'npm run build:pipeline'
+    commandLine 'sh', '-c', 'npm run build:env'
 }
 task copyBuild(type: Copy,dependsOn: buildNPM) {
     into('build/docker')
@@ -27,24 +24,7 @@ task copyBuild(type: Copy,dependsOn: buildNPM) {
         into("conf")
     }
 }
-task copyBuildPipeline(type: Copy,dependsOn: buildNPMPipeLine) {
-    into('build/docker')
-    from("build"){
-        into("build")
-    }
-    from("conf"){
-        into("conf")
-    }
-}
-
 task buildDocker(type: Docker,dependsOn: copyBuild) {
-    push = false
-    applicationName="ui"
-    tagVersion="DEV"
-    tag="${project.group}/${applicationName}"
-    dockerfile = file('Dockerfile')
-}
-task buildPipeline(type: Docker,dependsOn: copyBuildPipeline) {
     push = false
     applicationName="ui"
     tagVersion="DEV"
