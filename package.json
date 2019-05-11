@@ -29,7 +29,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build'",
+    "build": "react-scripts build",
     "build:env": "react-app-env --env-file=${BUILD_ENV}.env build",
     "build:docker": "BUILD_ENV=docker npm run build:env",
     "test": "react-scripts test --env=jsdom",

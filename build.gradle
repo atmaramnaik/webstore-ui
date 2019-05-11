@@ -6,14 +6,14 @@ buildscript {
         classpath('se.transmode.gradle:gradle-docker:1.2')
     }
 }
-group = "webstore"
+group = "atmaram"
 apply plugin: 'idea'
 apply plugin: 'docker'
 repositories {
     mavenCentral()
 }
 task buildNPM(type: Exec) {
-    commandLine 'sh', '-c', 'npm run build:env'
+    commandLine 'sh', '-c', 'npm run build'
 }
 task copyBuild(type: Copy,dependsOn: buildNPM) {
     into('build/docker')
@@ -23,11 +23,21 @@ task copyBuild(type: Copy,dependsOn: buildNPM) {
     from("conf"){
         into("conf")
     }
+    from("scripts"){
+        into("scripts")
+    }
 }
 task buildDocker(type: Docker,dependsOn: copyBuild) {
     push = false
-    applicationName="ui"
-    tagVersion="DEV"
+    applicationName="webstore-ui"
+    tagVersion="v0.0.1"
+    tag="${project.group}/${applicationName}"
+    dockerfile = file('Dockerfile')
+}
+task buildAndPushDocker(type: Docker,dependsOn: copyBuild) {
+    push = true
+    applicationName="webstore-ui"
+    tagVersion="v0.0.1"
     tag="${project.group}/${applicationName}"
     dockerfile = file('Dockerfile')
 }
