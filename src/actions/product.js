@@ -4,7 +4,12 @@
 import {user_get,user_post} from '../api/core'
 import {PRODUCTS_LOAD_SUCCESS,PRODUCT_STOCK_LOAD_SUCCESS,PRODUCT_BUY_SUCCESS} from '../constants/actions/product'
 function serviceURL() {
-    return 'http://'+window.location.host + process.env.REACT_APP_PRODUCT_SERVICE;
+    if(process.env.NODE_ENV=='development'){
+        return 'http://localhost' + process.env.REACT_APP_PRODUCT_SERVICE
+    }
+    else{
+        return 'http://'+window.location.host + process.env.REACT_APP_PRODUCT_SERVICE
+    }
 }
 export function load_products(){
     return function (dispatch) {

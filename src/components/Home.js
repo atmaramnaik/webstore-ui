@@ -6,23 +6,18 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux'
 import { Redirect} from 'react-router-dom'
 import {load_products,load_stock} from '../actions/product'
-import {roles} from '../actions/auth'
+import {roles,profile} from '../actions/auth'
 import {Panel} from 'react-bootstrap'
 import {Product} from './Product'
 
 export class Home extends Component{
-    componentDidMount(){
 
-    }
     componentDidUpdate(prevProps,state){
 
     }
     render() {
         if (!this.props.isLoggedIn) {
             return <Redirect to="/login"/>
-        } else {
-            if(!this.props.roles)
-                this.props.load_roles();
         }
         var products= <div>Loading</div>
         if (!this.props.products.loaded) {
@@ -53,12 +48,14 @@ const mapStateToProps = (state) => {
     return {
         isLoggedIn:state.user.isLoggedIn,
         products:state.products,
-        roles:state.user.roles
+        roles:state.user.roles,
+        profile:state.user.profile,
     };
 };
 const mapDispatchToProps = (dispatch) => {
     return {
         load_roles:()=> dispatch(roles()),
+        load_profile:()=> dispatch(profile()),
         load_products: () => dispatch(load_products()),
         load_stock: (id) => dispatch(load_stock(id))
     };

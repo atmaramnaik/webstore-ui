@@ -1,7 +1,7 @@
 /**
  * Created by atmaramn on 7/13/17.
  */
-import {REGISTRATION_SUCCESS,LOGIN_SUCCESS,LOGOUT_SUCCESS,UNREGISTER_SUCCESS,ROLES_SUCCESS} from '../constants/actions/auth'
+import {REGISTRATION_SUCCESS,LOGIN_SUCCESS,LOGOUT_SUCCESS,UNREGISTER_SUCCESS,ROLES_SUCCESS,PROFILE_SUCCESS} from '../constants/actions/auth'
 export default function user(state ={}, action) {
     switch (action.type) {
         case REGISTRATION_SUCCESS:
@@ -13,6 +13,8 @@ export default function user(state ={}, action) {
             return Object.assign({},{isLoggedIn:false});
         case ROLES_SUCCESS:
             return Object.assign({},state,{roles:action.data});
+        case PROFILE_SUCCESS:
+            return Object.assign({},state,{profile:action.data});
         default:
             return Object.assign({},state,{isLoggedIn:localStorage["jwt"]?true:false});
 
